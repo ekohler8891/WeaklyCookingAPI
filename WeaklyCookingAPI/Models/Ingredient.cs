@@ -4,7 +4,11 @@ namespace WeaklyCookingAPI.Models
 {
     public class Ingredient
     {
-        public string Catagory { get; set; }
-        public string FoodName { get; set; }
-        public int Caorlies { get; set; }
+        public int? recipeId {  get; set; }
+        public Recipe? Recipe { get; set; }
+        public int Id { get; set; }
+        public string Catagory { get; set; } = string.Empty;
+        public string FoodName { get; set; } = string.Empty;
+        public int Calories { get; set; }
     }
+}
