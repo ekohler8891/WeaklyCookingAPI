@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WeaklyCookingAPI.Data;
+using WeaklyCookingAPI.Mappers;
 
 namespace WeaklyCookingAPI.Controllers
 {
@@ -17,7 +18,8 @@ namespace WeaklyCookingAPI.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var instructions = _context.Instructions.ToList();
+            var instructions = _context.Instructions.ToList()
+                .Select(i=>i.ToInstructionDto());
 
             return Ok(instructions);
         }
@@ -30,7 +32,7 @@ namespace WeaklyCookingAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(instruction);
+            return Ok(instruction.ToInstructionDto());
         }
 
     }

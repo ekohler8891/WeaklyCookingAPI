@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using WeaklyCookingAPI.Data;
+using WeaklyCookingAPI.Mappers;
 
 namespace WeaklyCookingAPI.Controllers
 {
@@ -13,10 +14,12 @@ namespace WeaklyCookingAPI.Controllers
         {
             _context = context;
         }
+
         [HttpGet]
         public IActionResult GetAll() 
         {
-            var quantities = _context.Quantities.ToList();
+            var quantities = _context.Quantities.ToList()
+                .Select(q=>q.ToQuantityDto());
 
             return Ok(quantities);
         }
@@ -29,7 +32,7 @@ namespace WeaklyCookingAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(quantity);
+            return Ok(quantity.ToQuantityDto());
         }
     }
 }
