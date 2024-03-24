@@ -19,5 +19,19 @@ namespace WeaklyCookingAPI.Mappers
                 Group = recipeModel.Group
             };
         }
+
+        public static Recipe ToRecipeFromCreateDTO(this CreateRecipeRequestDto recipeDto)
+        {
+            return new Recipe
+            {
+                Name = recipeDto.Name,
+                Notes = recipeDto.Notes,
+                CookTime = recipeDto.CookTime,
+                PrepTime = recipeDto.PrepTime,
+                Servings = recipeDto.Servings,
+                TotalCalories = recipeDto.TotalCalories,
+                Group = recipeDto.Group
+            };
+        }
     }
 }

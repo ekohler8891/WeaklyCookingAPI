@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WeaklyCookingAPI.Data;
+using WeaklyCookingAPI.Dtos.Recipe;
 using WeaklyCookingAPI.Mappers;
 
 namespace WeaklyCookingAPI.Controllers
@@ -33,5 +34,15 @@ namespace WeaklyCookingAPI.Controllers
             return Ok(recipe.ToRecipeDto());
         }
 
+
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateRecipeRequestDto recipeDto)
+        {
+            var recipeModel = recipeDto.ToRecipeFromCreateDTO();
+            _context.Recipe.Add(recipeModel);
+            _context.SaveChanges();
+            return CreatedAtAction(nameof(GetById), new {id = recipeModel.Id},
+                recipeModel.ToRecipeDto());
+        }
     }
 }
