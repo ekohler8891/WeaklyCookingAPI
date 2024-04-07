@@ -71,5 +71,25 @@ namespace WeaklyCookingAPI.Controllers
             return Ok(recipeModel.ToRecipeDto());
         }
 
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            //Most likely not working because I will have have to deal the for forign key since my DB is so connected.
+            //Might cycle backt to this aftert the refactor of orginizing this.
+
+            var recipeModel = _context.Recipe.FirstOrDefault(x => x.Id == id);
+            var ingredientModel = _context.Ingredients.FirstOrDefault(y => y.Id == id);
+            var instructionModel = _context.Instructions.FirstOrDefaultAsync(z => z.InstructionId == id);
+
+            if (recipeModel == null)
+            {
+                return NotFound();
+            }
+            _context.Recipe.Remove(recipeModel);
+
+            _context.SaveChanges();
+            return NoContent();
+        }
     }
 }
