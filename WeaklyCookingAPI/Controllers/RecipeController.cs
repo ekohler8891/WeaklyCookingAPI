@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WeaklyCookingAPI.Data;
 using WeaklyCookingAPI.Dtos.Recipe;
 using WeaklyCookingAPI.Mappers;
+using WeaklyCookingAPI.Models;
 
 namespace WeaklyCookingAPI.Controllers
 {
@@ -43,6 +45,51 @@ namespace WeaklyCookingAPI.Controllers
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetById), new {id = recipeModel.Id},
                 recipeModel.ToRecipeDto());
+        }
+
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] int id, [FromBody] UpdateRecipeRequestDto updateDto)
+        {
+            var recipeModel = _context.Recipe.FirstOrDefault(x=>x.Id == id);
+
+            if(recipeModel == null)
+            {
+                return NotFound();
+            }
+
+            recipeModel.Name = updateDto.Name; 
+            recipeModel.Notes = updateDto.Notes;
+            recipeModel.CookTime = updateDto.CookTime;
+            recipeModel.PrepTime = updateDto.PrepTime;
+            recipeModel.Servings = updateDto.Servings;
+            recipeModel.TotalCalories = updateDto.TotalCalories;
+            recipeModel.Group = updateDto.Group;
+
+            _context.SaveChanges();
+
+            return Ok(recipeModel.ToRecipeDto());
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IActionResult Delete([FromRoute] int id)
+        {
+            //Most likely not working because I will have have to deal the for forign key since my DB is so connected.
+            //Might cycle backt to this aftert the refactor of orginizing this.
+
+            var recipeModel = _context.Recipe.FirstOrDefault(x => x.Id == id);
+            var ingredientModel = _context.Ingredients.FirstOrDefault(y => y.Id == id);
+            var instructionModel = _context.Instructions.FirstOrDefaultAsync(z => z.InstructionId == id);
+
+            if(recipeModel == null)
+            {
+                return NotFound();
+            }
+            _context.Recipe.Remove(recipeModel);
+            
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }
