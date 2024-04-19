@@ -18,17 +18,19 @@ namespace WeaklyCookingAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var recipes = _context.Recipe.ToList()
-                .Select(r=>r.ToRecipeDto());
+            var recipes = await _context.Recipe.ToListAsync();
+                
+            var recipeDTO = recipes.Select(r=>r.ToRecipeDto());
 
-            return Ok(recipes);
+            return Ok(recipeDTO);
         }
+
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var recipe = _context.Recipe.Find(id);
+            var recipe = await _context.Recipe.FindAsync(id);
             if (recipe == null)
             {
                 return NotFound();
@@ -38,20 +40,20 @@ namespace WeaklyCookingAPI.Controllers
 
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateRecipeRequestDto recipeDto)
+        public async Task<IActionResult> Create([FromBody] CreateRecipeRequestDto recipeDto)
         {
             var recipeModel = recipeDto.ToRecipeFromCreateDTO();
-            _context.Recipe.Add(recipeModel);
-            _context.SaveChanges();
+            await _context.Recipe.AddAsync(recipeModel);
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new {id = recipeModel.Id},
                 recipeModel.ToRecipeDto());
         }
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] int id, [FromBody] UpdateRecipeRequestDto updateDto)
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateRecipeRequestDto updateDto)
         {
-            var recipeModel = _context.Recipe.FirstOrDefault(x=>x.Id == id);
+            var recipeModel = await _context.Recipe.FirstOrDefaultAsync(x=>x.Id == id);
 
             if(recipeModel == null)
             {
@@ -66,17 +68,17 @@ namespace WeaklyCookingAPI.Controllers
             recipeModel.TotalCalories = updateDto.TotalCalories;
             recipeModel.Group = updateDto.Group;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return Ok(recipeModel.ToRecipeDto());
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] int id)
+        public async Task<IActionResult> Delete([FromRoute] int id)
         {
 
-            var recipeModel = _context.Recipe.FirstOrDefault(x => x.Id == id);
+            var recipeModel = await _context.Recipe.FirstOrDefaultAsync(x => x.Id == id);
           
             if (recipeModel == null)
             {
@@ -84,7 +86,7 @@ namespace WeaklyCookingAPI.Controllers
             }
 
             //To make sure that all ingredients are also removed.
-            var ingredientModel = _context.Ingredients.ToList();
+            var ingredientModel = await _context.Ingredients.ToListAsync();
           
             if (ingredientModel != null)
             {
@@ -95,7 +97,7 @@ namespace WeaklyCookingAPI.Controllers
             }
 
             //To make sure that all instructions are also removed.
-            var instructionModel = _context.Instructions.ToList();
+            var instructionModel = await _context.Instructions.ToListAsync();
             
             if (instructionModel != null)
             {
@@ -106,7 +108,7 @@ namespace WeaklyCookingAPI.Controllers
             }
 
             //To make sure that all quantity are also removed.
-            var quantityModel = _context.Quantities.ToList();
+            var quantityModel = await _context.Quantities.ToListAsync();
 
             if (quantityModel != null)
             {
@@ -117,7 +119,7 @@ namespace WeaklyCookingAPI.Controllers
             }
 
             _context.Recipe.Remove(recipeModel);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return NoContent();
         }
     }
