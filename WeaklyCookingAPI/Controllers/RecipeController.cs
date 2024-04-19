@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using WeaklyCookingAPI.Data;
 using WeaklyCookingAPI.Dtos.Recipe;
+using WeaklyCookingAPI.Interfaces;
 using WeaklyCookingAPI.Mappers;
 using WeaklyCookingAPI.Models;
 
@@ -12,15 +13,17 @@ namespace WeaklyCookingAPI.Controllers
     public class RecipeController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
-        public RecipeController(ApplicationDBContext contex)
+        private readonly IRecipeRepository _recipeRepo;
+        public RecipeController(ApplicationDBContext contex, IRecipeRepository recipeRepo)
         {
+            _recipeRepo = recipeRepo;
             _context = contex;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
-            var recipes = await _context.Recipe.ToListAsync();
+            var recipes = await _recipeRepo.GetAllAsync();
                 
             var recipeDTO = recipes.Select(r=>r.ToRecipeDto());
 

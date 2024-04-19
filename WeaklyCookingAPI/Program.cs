@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using WeaklyCookingAPI.Data;
+using WeaklyCookingAPI.Interfaces;
+using WeaklyCookingAPI.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,9 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+//adding the connection the repository
+builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
 
 var app = builder.Build();
 
