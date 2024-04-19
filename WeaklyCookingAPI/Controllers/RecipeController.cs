@@ -75,18 +75,17 @@ namespace WeaklyCookingAPI.Controllers
         [Route("{id}")]
         public IActionResult Delete([FromRoute] int id)
         {
-            //Most likely not working because I will have have to deal the for forign key since my DB is so connected.
-            //Might cycle backt to this aftert the refactor of orginizing this.
 
             var recipeModel = _context.Recipe.FirstOrDefault(x => x.Id == id);
-            var ingredientModel = _context.Ingredients.ToList();
-            var instructionModel = _context.Instructions.ToList();
-            var quantityModel = _context.Quantities.ToList();
-
+          
             if (recipeModel == null)
             {
                 return NotFound();
-            } 
+            }
+
+            //To make sure that all ingredients are also removed.
+            var ingredientModel = _context.Ingredients.ToList();
+          
             if (ingredientModel != null)
             {
                 foreach (var ingredient in ingredientModel)
@@ -94,6 +93,10 @@ namespace WeaklyCookingAPI.Controllers
                     _context.Ingredients.Remove(ingredient);
                 }
             }
+
+            //To make sure that all instructions are also removed.
+            var instructionModel = _context.Instructions.ToList();
+            
             if (instructionModel != null)
             {
                 foreach (var instruction in instructionModel)
@@ -101,6 +104,10 @@ namespace WeaklyCookingAPI.Controllers
                     _context.Instructions.Remove(instruction);
                 }
             }
+
+            //To make sure that all quantity are also removed.
+            var quantityModel = _context.Quantities.ToList();
+
             if (quantityModel != null)
             {
                 foreach (var quantity in quantityModel)
@@ -108,7 +115,6 @@ namespace WeaklyCookingAPI.Controllers
                     _context.Quantities.Remove(quantity);
                 }
             }
-
 
             _context.Recipe.Remove(recipeModel);
             _context.SaveChanges();
