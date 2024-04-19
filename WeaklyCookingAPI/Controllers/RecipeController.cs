@@ -79,15 +79,38 @@ namespace WeaklyCookingAPI.Controllers
             //Might cycle backt to this aftert the refactor of orginizing this.
 
             var recipeModel = _context.Recipe.FirstOrDefault(x => x.Id == id);
-            var ingredientModel = _context.Ingredients.FirstOrDefault(y => y.Id == id);
-            var instructionModel = _context.Instructions.FirstOrDefaultAsync(z => z.InstructionId == id);
+            var ingredientModel = _context.Ingredients.ToList();
+            var instructionModel = _context.Instructions.ToList();
+            var quantityModel = _context.Quantities.ToList();
 
             if (recipeModel == null)
             {
                 return NotFound();
+            } 
+            if (ingredientModel != null)
+            {
+                foreach (var ingredient in ingredientModel)
+                {
+                    _context.Ingredients.Remove(ingredient);
+                }
             }
-            _context.Recipe.Remove(recipeModel);
+            if (instructionModel != null)
+            {
+                foreach (var instruction in instructionModel)
+                {
+                    _context.Instructions.Remove(instruction);
+                }
+            }
+            if (quantityModel != null)
+            {
+                foreach (var quantity in quantityModel)
+                {
+                    _context.Quantities.Remove(quantity);
+                }
+            }
 
+
+            _context.Recipe.Remove(recipeModel);
             _context.SaveChanges();
             return NoContent();
         }
