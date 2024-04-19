@@ -1,4 +1,5 @@
-﻿using WeaklyCookingAPI.Models;
+﻿using WeaklyCookingAPI.Dtos.Instructions;
+using WeaklyCookingAPI.Models;
 
 namespace WeaklyCookingAPI.Dtos.Recipe
 {
@@ -6,7 +7,7 @@ namespace WeaklyCookingAPI.Dtos.Recipe
     {
         public int Id { get; set; }
         public String Name { get; set; } = String.Empty;
-   //     public List<Instruction> Instructions { get; set; } = new List<Instruction>();
+        public List<InstructionDto> Instructions { get; set; }
 
   //      public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public string Notes { get; set; } = string.Empty;

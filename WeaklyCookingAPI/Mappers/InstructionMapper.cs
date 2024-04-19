@@ -12,7 +12,8 @@ namespace WeaklyCookingAPI.Mappers
             return new InstructionDto
             {
                 InstructionId = instructionModel.InstructionId,
-                InstructionName = instructionModel.InstructionName
+                InstructionName = instructionModel.InstructionName,
+                StepNumber = instructionModel.StepNumber,
             };
         }
     }

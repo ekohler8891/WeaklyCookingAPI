@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WeaklyCookingAPI.Data;
+using WeaklyCookingAPI.Interfaces;
 using WeaklyCookingAPI.Mappers;
 
 namespace WeaklyCookingAPI.Controllers
@@ -8,31 +9,29 @@ namespace WeaklyCookingAPI.Controllers
     [ApiController]
     public class InstructionController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
+        private readonly IInstructionRepository _instructionRepo;
 
-        public InstructionController(ApplicationDBContext context)
+        public InstructionController(IInstructionRepository instructionRepo)
         {
-            _context = context;
+            _instructionRepo = instructionRepo;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var instructions = _context.Instructions.ToList()
-                .Select(i=>i.ToInstructionDto());
-
-            return Ok(instructions);
+            var instructions = await _instructionRepo.GetAllAsync();
+            var instructionDto = instructions.Select(s => s.ToInstructionDto());
+            return Ok(instructionDto);
         }
-
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute]int id) 
+        public async Task<IActionResult> GetByIdAsync([FromRoute] int id)
         {
-            var instruction = _context.Instructions.Find(id);
+            var instruction = await _instructionRepo.GetByIdAsync(id);
             if(instruction == null)
             {
                 return NotFound();
             }
-            return Ok(instruction.ToInstructionDto());
+            return Ok(instruction);
         }
 
     }

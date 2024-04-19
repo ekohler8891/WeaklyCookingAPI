@@ -12,12 +12,11 @@ namespace WeaklyCookingAPI.Controllers
     [ApiController]
     public class RecipeController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
         private readonly IRecipeRepository _recipeRepo;
-        public RecipeController(ApplicationDBContext contex, IRecipeRepository recipeRepo)
+        public RecipeController(IRecipeRepository recipeRepo)
         {
             _recipeRepo = recipeRepo;
-            _context = contex;
+            
         }
 
         [HttpGet]
