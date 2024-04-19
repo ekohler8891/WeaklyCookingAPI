@@ -31,7 +31,7 @@ namespace WeaklyCookingAPI.Controllers
             {
                 return NotFound();
             }
-            return Ok(instruction);
+            return Ok(instruction.ToInstructionDto());
         }
 
     }
