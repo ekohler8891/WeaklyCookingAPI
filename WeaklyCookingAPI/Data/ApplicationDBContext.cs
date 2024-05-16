@@ -13,7 +13,6 @@ namespace WeaklyCookingAPI.Data
         public DbSet<Recipe> Recipe { get; set; }
         public DbSet<Ingredient> Ingredients { get; set; }  
         public DbSet<Instruction> Instructions { get; set; }
-        public DbSet<Quantity> Quantities { get; set; }
 
     }
 }

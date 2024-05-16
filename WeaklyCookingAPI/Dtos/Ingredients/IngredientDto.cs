@@ -8,5 +8,7 @@
         public string Catagory { get; set; } = string.Empty;
         public string FoodName { get; set; } = string.Empty;
         public int Calories { get; set; }
+        public string Metric { get; set; } = string.Empty;
+        public float Amount { get; set; }
     }
 }

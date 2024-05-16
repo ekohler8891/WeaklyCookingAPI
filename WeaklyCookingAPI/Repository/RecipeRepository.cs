@@ -50,16 +50,6 @@ namespace WeaklyCookingAPI.Repository
                 }
             }
 
-            //To make sure that all quantity are also removed.
-            var quantityModel = await _context.Quantities.ToListAsync();
-
-            if (quantityModel != null)
-            {
-                foreach (var quantity in quantityModel)
-                {
-                    _context.Quantities.Remove(quantity);
-                }
-            }
             _context.Recipe.Remove(recipeModel);
             await _context.SaveChangesAsync();
             return recipeModel;

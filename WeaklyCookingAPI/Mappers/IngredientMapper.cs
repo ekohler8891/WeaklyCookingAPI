@@ -15,8 +15,10 @@ namespace WeaklyCookingAPI.Mappers
                 Id = ingredientModel.Id,
                 Catagory = ingredientModel.Catagory,
                 FoodName = ingredientModel.FoodName,
-                Calories = ingredientModel.Calories
-            };
+                Calories = ingredientModel.Calories,
+                Metric = ingredientModel.Metric,
+                Amount = ingredientModel.Amount
+    };
         }
         
     }
