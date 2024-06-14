@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WeaklyCookingAPI.Data;
+using WeaklyCookingAPI.Interfaces;
 using WeaklyCookingAPI.Mappers;
 
 namespace WeaklyCookingAPI.Controllers
@@ -8,23 +9,23 @@ namespace WeaklyCookingAPI.Controllers
     [ApiController]
     public class IngredientController : ControllerBase
     {
-        private readonly ApplicationDBContext _context;
-        public IngredientController(ApplicationDBContext contex)
+        private readonly IIngredientRepository _ingredientRepo;
+        public IngredientController(IIngredientRepository ingrentRepo)
         {
-            _context = contex;
+            _ingredientRepo = ingrentRepo;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAllAsync()
         {
-            var ingredient = _context.Ingredients.ToList()
-                .Select(i=>i.ToIngredientDto());
-            return Ok(ingredient);
+            var ingredients = await _ingredientRepo.GetAllAsync();
+            var ingredientDto = ingredients.Select(i => i.ToIngredientDto());
+            return Ok(ingredientDto);
         }
         [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute]int id) 
+        public async Task<IActionResult> GetByIdAsync([FromRoute]int id) 
         {
-            var ingredient = _context.Ingredients.Find(id);
+            var ingredient = await _ingredientRepo.GetByIdAsync(id);
             if(ingredient == null)
             {
                 return NotFound();

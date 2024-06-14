@@ -8,8 +8,6 @@ namespace WeaklyCookingAPI.Dtos.Recipe
         public int Id { get; set; }
         public String Name { get; set; } = String.Empty;
         public List<InstructionDto> Instructions { get; set; }
-
-  //      public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
         public string Notes { get; set; } = string.Empty;
         public int CookTime { get; set; }
         public int PrepTime { get; set; }

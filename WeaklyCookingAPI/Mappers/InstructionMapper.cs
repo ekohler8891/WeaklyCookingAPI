@@ -14,6 +14,7 @@ namespace WeaklyCookingAPI.Mappers
                 InstructionId = instructionModel.InstructionId,
                 InstructionName = instructionModel.InstructionName,
                 StepNumber = instructionModel.StepNumber,
+                
             };
         }
     }
