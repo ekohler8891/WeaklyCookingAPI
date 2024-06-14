@@ -18,7 +18,9 @@ namespace WeaklyCookingAPI.Mappers
                 TotalCalories = recipeModel.TotalCalories,
                 Group = recipeModel.Group,
                 Instructions = recipeModel.Instructions.Select(i =>
-                i.ToInstructionDto()).ToList()
+                i.ToInstructionDto()).ToList(),
+                Ingredients = recipeModel.Ingredients.Select(i =>
+                i.ToIngredientDto()).ToList()
             };
         }
 

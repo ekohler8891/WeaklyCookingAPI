@@ -57,8 +57,9 @@ namespace WeaklyCookingAPI.Repository
 
         public async Task<List<Recipe>> GetAllAsync()
         {
-            return await _context.Recipe.Include(c =>
-                c.Instructions).ToListAsync();
+            var recipes = await _context.Recipe.Include(c =>
+                 c.Instructions).Include(ca => ca.Ingredients).ToListAsync();
+            return recipes;
         }
 
         public async Task<Recipe?> GetByIdAsync(int id)
