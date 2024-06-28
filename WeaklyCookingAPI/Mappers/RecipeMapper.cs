@@ -10,15 +10,15 @@ namespace WeaklyCookingAPI.Mappers
             return new RecipeDto
             {
                 Id = recipeModel.Id,
-                Name = recipeModel.Name,
+                Title = recipeModel.Title,
+                Ingredients = recipeModel.Ingredients,
+                Instructions = recipeModel.Instructions,
                 Notes = recipeModel.Notes,
                 CookTime = recipeModel.CookTime,
                 PrepTime = recipeModel.PrepTime,
                 Servings = recipeModel.Servings,
                 TotalCalories = recipeModel.TotalCalories,
-                Group = recipeModel.Group,
-                Instructions = recipeModel.Instructions.Select(i =>
-                i.ToInstructionDto()).ToList()
+                Group = recipeModel.Group
             };
         }
 
@@ -26,7 +26,9 @@ namespace WeaklyCookingAPI.Mappers
         {
             return new Recipe
             {
-                Name = recipeDto.Name,
+                Title = recipeDto.Title,
+                Ingredients = recipeDto.Ingredients,
+                Instructions = recipeDto.Instructions,
                 Notes = recipeDto.Notes,
                 CookTime = recipeDto.CookTime,
                 PrepTime = recipeDto.PrepTime,

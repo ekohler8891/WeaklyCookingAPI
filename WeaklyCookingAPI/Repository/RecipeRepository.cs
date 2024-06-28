@@ -28,28 +28,6 @@ namespace WeaklyCookingAPI.Repository
             {
                 return null;
             }
-            //To make sure that all ingredients are also removed.
-            var ingredientModel = await _context.Ingredients.ToListAsync();
-
-            if (ingredientModel != null)
-            {
-                foreach (var ingredient in ingredientModel)
-                {
-                    _context.Ingredients.Remove(ingredient);
-                }
-            }
-
-            //To make sure that all instructions are also removed.
-            var instructionModel = await _context.Instructions.ToListAsync();
-
-            if (instructionModel != null)
-            {
-                foreach (var instruction in instructionModel)
-                {
-                    _context.Instructions.Remove(instruction);
-                }
-            }
-
             _context.Recipe.Remove(recipeModel);
             await _context.SaveChangesAsync();
             return recipeModel;
@@ -57,14 +35,12 @@ namespace WeaklyCookingAPI.Repository
 
         public async Task<List<Recipe>> GetAllAsync()
         {
-            return await _context.Recipe.Include(c =>
-                c.Instructions).ToListAsync();
+            return await _context.Recipe.ToListAsync();
         }
 
         public async Task<Recipe?> GetByIdAsync(int id)
         {
-            return await _context.Recipe.Include(c =>
-                c.Instructions).FirstOrDefaultAsync(i =>
+            return await _context.Recipe.FirstOrDefaultAsync(i =>
                     i.Id == id);
         }
 
@@ -76,7 +52,9 @@ namespace WeaklyCookingAPI.Repository
                 return null;
             }
 
-            existingRecipe.Name = recipeDto.Name;
+            existingRecipe.Title = recipeDto.Title;
+            existingRecipe.Instructions = recipeDto.Instructions;
+            existingRecipe.Ingredients = recipeDto.Ingredients;
             existingRecipe.Notes = recipeDto.Notes;
             existingRecipe.CookTime = recipeDto.CookTime;
             existingRecipe.PrepTime = recipeDto.PrepTime;

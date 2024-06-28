@@ -2,12 +2,10 @@
 {
     public class CreateRecipeRequestDto
     {
-        //do not want the ID for this
-     //   public int Id { get; set; }
-        public String Name { get; set; } = String.Empty;
-      //Will address later
-        //     public List<Instruction> Instructions { get; set; } = new List<Instruction>();
-        //      public List<Ingredient> Ingredients { get; set; } = new List<Ingredient>();
+        public int Id { get; set; }
+        public string Title { get; set; } = string.Empty;
+        public List<string> Instructions { get; set; } = new List<string>();
+        public List<string> Ingredients { get; set; } = new List<string>();
         public string Notes { get; set; } = string.Empty;
         public int CookTime { get; set; }
         public int PrepTime { get; set; }

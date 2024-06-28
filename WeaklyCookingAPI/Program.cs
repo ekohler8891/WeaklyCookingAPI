@@ -25,7 +25,6 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 //adding the connection the repository
 builder.Services.AddScoped<IRecipeRepository, RecipeRepository>();
-builder.Services.AddScoped<IInstructionRepository, InstructionRepository>();
 
 
 

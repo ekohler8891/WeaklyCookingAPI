@@ -9,10 +9,7 @@ namespace WeaklyCookingAPI.Data
         {
             
         }
-        //Will need to run commands to update db in future to fix grammer
         public DbSet<Recipe> Recipe { get; set; }
-        public DbSet<Ingredient> Ingredients { get; set; }  
-        public DbSet<Instruction> Instructions { get; set; }
 
     }
 }
